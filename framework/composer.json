@@ -11,5 +11,9 @@
             "Illuminare\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "symfony/http-foundation": "^7.0",
+        "symfony/var-dumper": "^7.0",
+        "composer/class-map-generator": "^1.1"
+    }
 }
