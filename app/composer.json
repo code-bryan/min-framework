@@ -1,0 +1,23 @@
+{
+    "name": "min/app",
+    "authors": [
+        {
+            "name": "Bryan Astacio",
+            "email": "brya0196@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "min/framework": "dev-main"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../framework"
+        }
+    ]
+}

@@ -1,6 +1,5 @@
 {
-    "name": "codi/min-framework",
-    "license": "MIT",
+    "name": "min/framework",
     "authors": [
         {
             "name": "Bryan Astacio",
@@ -8,8 +7,9 @@
         }
     ],
     "autoload": {
-        "App\\": "app/",
-        "Framework\\": "framework/"
+        "psr-4": {
+            "Illuminare\\": "src/"
+        }
     },
     "require": {}
 }
