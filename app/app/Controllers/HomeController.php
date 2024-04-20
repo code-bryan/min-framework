@@ -4,8 +4,15 @@ namespace App\Controllers;
 
 class HomeController
 {
-  public function index(): string
+  public function index()
   {
-    return "Hello World";
+    $content = '<h1>Hello Word</h1>';
+    echo $content;
+  }
+
+  public function get(int $id)
+  {
+    $content = "<h1>Hello Word {$id}</h1>";
+    echo $content;
   }
 }

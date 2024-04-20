@@ -2,6 +2,7 @@
 
 namespace Illuminare\Foundation;
 
+use Illuminare\Foundation\Router\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Composer\ClassMapGenerator\ClassMapGenerator;
 
@@ -16,10 +17,16 @@ class Kernel
 
   public function handle()
   {
-    foreach ($this->getControllerInstances() as $class => $path) {
-      $instance = new $class;
-      echo $instance->index();
-    }
+    $router = new Router(
+      $this->getControllerInstances(), 
+      $this->request,
+    );
+
+    $handler = $router->handle();
+    $routeHandler = [new $handler->controller, $handler->method];
+    $response = call_user_func_array($routeHandler, $handler->parameters);
+
+    return $response;
   }
 
   protected function getControllerInstances()

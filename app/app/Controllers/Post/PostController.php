@@ -4,8 +4,15 @@ namespace App\Controllers\Post;
 
 class PostController
 {
-  public function index(): string
+  public function index()
   {
-    return "Hello from post";
+    $content = '<h1>hello from post</h1>';
+    echo $content;
+  }
+
+  public function get(int $id)
+  {
+    $content = "<h1>Post number $id</h1>";
+    echo $content;
   }
 }
