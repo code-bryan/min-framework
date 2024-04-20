@@ -1,0 +1,15 @@
+{
+    "name": "codi/min-framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bryan Astacio",
+            "email": "brya0196@gmail.com"
+        }
+    ],
+    "autoload": {
+        "App\\": "app/",
+        "Framework\\": "framework/"
+    },
+    "require": {}
+}
