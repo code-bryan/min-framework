@@ -8,26 +8,26 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
+  private string $home = "/home";
+  private readonly array $paths;
+
   public function __construct(
     protected array $controllers,
     protected Request $request,
   )
   {
-    // 
+    $this->paths = $this->getPaths() ?: [];
   }
 
-  public function handle(): RouteInfo
+  public function handle()
   {
     $dispatcher = simpleDispatcher(function (RouteCollector $routeCollector) {
-      foreach ($this->controllers as $class => $rawPath) {
-        $instance = new $class;
-        $path = $this->getPath($rawPath, $instance);
-        
-        if (method_exists($instance, "index")) {
-          $currentPath = strlen($path) === 0 ? '/' : $path;
-          $routeCollector->addRoute("GET", $currentPath, [$class, 'index']);
-        }
+      foreach ($this->paths as $route) {
+        [$path, $class, $instance] = $route;
 
+        if (method_exists($instance, "index")) {
+          $routeCollector->addRoute("GET", $path, [$class, 'index']);
+        }
         if (method_exists($instance, "get")) {
           $routeCollector->addRoute("GET", $path . '/{id:\d+}', [$class, 'get']);
         }
@@ -40,7 +40,6 @@ class Router
     );
 
     $route = new RouteInfo($routeInfo);
-
     return $route;
   }
 
@@ -52,5 +51,31 @@ class Router
     $path = str_replace($className, "", $controllerPath);
 
     return strtolower($path);
+  }
+
+  private function getPaths(): array
+  {
+    $paths = array_map(function($class) {
+      $instance = new $class;
+
+      $currentPath = $this->getPathName($instance);
+
+      $isHome = $currentPath == $this->home;
+
+      $path = $isHome ? "/" : $currentPath;
+
+      return [$path, $class, $instance];
+    }, array_keys($this->controllers));
+
+    return $paths;
+  }
+
+  private function getPathName(object $instance)
+  {
+    $reflectionClass = new \ReflectionClass($instance);
+    $className = "/{$reflectionClass->getShortName()}.php";
+    
+    $name = strtolower(str_replace("Controller.php", "", $className));
+    return $name;
   }
 }
