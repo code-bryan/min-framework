@@ -29,8 +29,11 @@ class Router
           $routeCollector->addRoute("GET", $path, [$class, 'index']);
         }
         if (method_exists($instance, "get")) {
+          // TODO: avoid using declarative params or read arguments of a method
           $routeCollector->addRoute("GET", $path . '/{id:\d+}', [$class, 'get']);
         }
+
+        // TODO: create other methods to be read
       }
     });
 
@@ -39,6 +42,8 @@ class Router
       $this->request->getPathInfo(),
     );
 
+    // TODO redirect to a Error class 
+    
     $route = new RouteInfo($routeInfo);
     return $route;
   }

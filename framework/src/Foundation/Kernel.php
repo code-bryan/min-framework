@@ -24,6 +24,7 @@ class Kernel
 
     $handler = $router->handle();
     $routeHandler = [new $handler->controller, $handler->method];
+
     $response = call_user_func_array($routeHandler, $handler->parameters);
 
     return $response;
